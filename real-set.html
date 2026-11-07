@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Set of Real Numbers</title>
+    <style>
+      :root {
+        --ink: #1a1a1a;
+        --paper: #faf8f4;
+        --rule: #d8d2c4;
+        --accent: #8b5a2b;
+        --ok: #2d6a4f;
+        --no: #a4343a;
+        --mono: "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, monospace;
+        --serif:
+          "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--serif);
+        display: grid;
+        place-items: center;
+        padding: 2rem 1rem;
+      }
+      main {
+        width: min(760px, 100%);
+      }
+      h1 {
+        font-size: clamp(1.6rem, 4vw, 2.4rem);
+        font-weight: 400;
+        letter-spacing: -0.02em;
+        margin: 0 0 0.25rem;
+      }
+      .sub {
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+        margin-bottom: 2rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+      }
+      @media (max-width: 560px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      fieldset {
+        border: 1px solid var(--rule);
+        padding: 1rem 1.1rem 1.15rem;
+        margin: 0;
+        background: #fff;
+      }
+      legend {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        padding: 0 0.5rem;
+        color: var(--accent);
+      }
+      label {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #6b6358;
+        margin: 0.65rem 0 0.3rem;
+      }
+      input,
+      select {
+        width: 100%;
+        padding: 0.5rem 0.6rem;
+        font-family: var(--mono);
+        font-size: 0.95rem;
+        border: 1px solid var(--rule);
+        background: var(--paper);
+        color: var(--ink);
+      }
+      input:focus,
+      select:focus {
+        outline: 2px solid var(--accent);
+        outline-offset: -1px;
+      }
+      .op-row {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 1rem;
+        align-items: end;
+        margin-bottom: 1.5rem;
+      }
+      button {
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        padding: 0.7rem 1.4rem;
+        background: var(--ink);
+        color: var(--paper);
+        border: none;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      button:hover {
+        background: var(--accent);
+      }
+      .results {
+        border-top: 1px solid var(--rule);
+        padding-top: 1.25rem;
+      }
+      .results h2 {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--accent);
+        margin: 0 0 0.85rem;
+        font-weight: 400;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .chip {
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        padding: 0.35rem 0.7rem;
+        border: 1px solid var(--rule);
+        background: #fff;
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.4rem;
+      }
+      .chip .val {
+        font-weight: 600;
+      }
+      .chip .mark {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .chip.in {
+        border-color: var(--ok);
+        color: var(--ok);
+      }
+      .chip.out {
+        border-color: var(--no);
+        color: var(--no);
+      }
+      .notation {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        color: #6b6358;
+        margin-top: 1rem;
+        line-height: 1.7;
+      }
+      .notation b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Set of Real Numbers</h1>
+      <p class="sub">Interval Algebra — Union · Intersection · Difference</p>
+
+      <div class="grid">
+        <fieldset>
+          <legend>Set A</legend>
+          <label for="aLow">Low</label>
+          <input id="aLow" type="number" value="0" step="any" />
+          <label for="aHigh">High</label>
+          <input id="aHigh" type="number" value="2" step="any" />
+          <label for="aType">Range Type</label>
+          <select id="aType">
+            <option value="0">0 — Closed [a, b]</option>
+            <option value="1">1 — Both Open (a, b)</option>
+            <option value="2">2 — Left Open (a, b]</option>
+            <option value="3" selected>3 — Right Open [a, b)</option>
+          </select>
+        </fieldset>
+        <fieldset>
+          <legend>Set B</legend>
+          <label for="bLow">Low</label>
+          <input id="bLow" type="number" value="1" step="any" />
+          <label for="bHigh">High</label>
+          <input id="bHigh" type="number" value="3" step="any" />
+          <label for="bType">Range Type</label>
+          <select id="bType">
+            <option value="0">0 — Closed [a, b]</option>
+            <option value="1">1 — Both Open (a, b)</option>
+            <option value="2" selected>2 — Left Open (a, b]</option>
+            <option value="3">3 — Right Open [a, b)</option>
+          </select>
+        </fieldset>
+      </div>
+
+      <div class="op-row">
+        <div>
+          <label for="op">Operation</label>
+          <select id="op" style="width: auto">
+            <option value="union">Union — A ∪ B</option>
+            <option value="intersect" selected>Intersection — A ∩ B</option>
+            <option value="subtract">Difference — A − B</option>
+          </select>
+        </div>
+        <div>
+          <label for="vals">Values to Test (comma-separated)</label>
+          <input id="vals" type="text" value="0, 1, 2, 3" />
+        </div>
+      </div>
+
+      <button id="run">Evaluate</button>
+
+      <div class="results">
+        <h2>Membership in Result Set</h2>
+        <div class="chips" id="out"></div>
+        <p class="notation" id="note"></p>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        const $ = (id) => document.getElementById(id);
+
+        function inSet(x, set) {
+          const { low, high, rangeType } = set;
+          const lowInc = rangeType === 0 || rangeType === 3;
+          const highInc = rangeType === 0 || rangeType === 2;
+          const lowOk = lowInc ? x >= low : x > low;
+          const highOk = highInc ? x <= high : x < high;
+          return lowOk && highOk;
+        }
+
+        function combine(x, a, b, op) {
+          const ia = inSet(x, a);
+          const ib = inSet(x, b);
+          if (op === "union") return ia || ib;
+          if (op === "intersect") return ia && ib;
+          if (op === "subtract") return ia && !ib;
+          return false;
+        }
+
+        function bracket(set, side) {
+          const { rangeType } = set;
+          const leftInc = rangeType === 0 || rangeType === 3;
+          const rightInc = rangeType === 0 || rangeType === 2;
+          if (side === "left") return leftInc ? "[" : "(";
+          return rightInc ? "]" : ")";
+        }
+
+        function render() {
+          const a = {
+            low: parseFloat($("aLow").value),
+            high: parseFloat($("aHigh").value),
+            rangeType: parseInt($("aType").value, 10)
+          };
+          const b = {
+            low: parseFloat($("bLow").value),
+            high: parseFloat($("bHigh").value),
+            rangeType: parseInt($("bType").value, 10)
+          };
+          const op = $("op").value;
+          const raw = $("vals")
+            .value.split(",")
+            .map((s) => s.trim())
+            .filter(Boolean);
+          const nums = raw.map(Number).filter((n) => !Number.isNaN(n));
+
+          if ([a.low, a.high, b.low, b.high].some(Number.isNaN)) {
+            $("out").innerHTML =
+              '<span class="chip out">invalid interval</span>';
+            $("note").textContent = "";
+            return;
+          }
+
+          const out = $("out");
+          out.innerHTML = "";
+          nums.forEach((n) => {
+            const member = combine(n, a, b, op);
+            const chip = document.createElement("span");
+            chip.className = "chip " + (member ? "in" : "out");
+            chip.innerHTML = `<span class="val">${n}</span><span class="mark">${member ? "in" : "out"}</span>`;
+            out.appendChild(chip);
+          });
+
+          const sa = `${bracket(a, "left")}${a.low}, ${a.high}${bracket(a, "right")}`;
+          const sb = `${bracket(b, "left")}${b.low}, ${b.high}${bracket(b, "right")}`;
+          const opsym = op === "union" ? "∪" : op === "intersect" ? "∩" : "−";
+          $("note").innerHTML =
+            `<b>A</b> = ${sa} &nbsp;&nbsp; <b>B</b> = ${sb} &nbsp;&nbsp; <b>A ${opsym} B</b> tested at each value.`;
+        }
+
+        $("run").addEventListener("click", render);
+        [
+          "aLow",
+          "aHigh",
+          "aType",
+          "bLow",
+          "bHigh",
+          "bType",
+          "op",
+          "vals"
+        ].forEach((id) => $(id).addEventListener("input", render));
+        render();
+      })();
+    </script>
+  </body>
+</html>
