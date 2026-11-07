@@ -111,7 +111,6 @@ are independent; the specification is not.
 ## License
 
 MIT.
-```
 
 ---
 
